@@ -26,8 +26,6 @@ import {
   ArrowUp, 
   ArrowDown, 
   FileText,
-  CheckCircle,
-  XCircle,
   Printer,
   History,
   Download,
@@ -203,36 +201,11 @@ export const BillingModule: React.FC = () => {
     }
   };
 
-  const handleBulkMarkBilled = async () => {
-    if (selectedEntryIds.length === 0) return;
-    try {
-      await Promise.all(
-        selectedEntryIds.map(id => updateDailyEntry(id, { isBilled: true, isBooked: true }))
-      );
-      setEntries(prev => prev.map(item => item.id && selectedEntryIds.includes(item.id) ? { ...item, isBilled: true, isBooked: true } : item));
-    } catch (err) {
-      console.error("Batch update failed:", err);
-    }
-  };
-
   // Bill Generation & History States
   const [isGeneratingBill, setIsGeneratingBill] = useState<boolean>(false);
-  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState<boolean>(false);
   const [generatedBills, setGeneratedBills] = useState<BillRecord[]>([]);
   const [historyLoading, setHistoryLoading] = useState<boolean>(false);
   const [billError, setBillError] = useState<string | null>(null);
-
-  const handleBulkMarkNotBilled = async () => {
-    if (selectedEntryIds.length === 0) return;
-    try {
-      await Promise.all(
-        selectedEntryIds.map(id => updateDailyEntry(id, { isBilled: false, isBooked: false }))
-      );
-      setEntries(prev => prev.map(item => item.id && selectedEntryIds.includes(item.id) ? { ...item, isBilled: false, isBooked: false } : item));
-    } catch (err) {
-      console.error("Batch update failed:", err);
-    }
-  };
 
   // Generate Bill PDF & Store in Firebase collection
   const handleBillNow = async () => {

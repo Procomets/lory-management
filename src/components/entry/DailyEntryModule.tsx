@@ -120,7 +120,6 @@ import {
   filterEntries,
   sortEntries
 } from '../../services/entryService';
-import { useAuth } from '../../context/AuthContext';
 import { 
   Plus, 
   Calendar as CalendarIcon, 
@@ -142,11 +141,7 @@ import {
   RotateCcw,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown,
-  Lock,
-  Building2,
-  MapPin,
-  Phone
+  ArrowDown
 } from 'lucide-react';
 
 interface SearchableDriverSelectProps {
@@ -337,9 +332,6 @@ const SearchableVehicleSelect: React.FC<SearchableVehicleSelectProps> = ({ value
 };
 
 export const DailyEntryModule: React.FC = () => {
-  const { currentUser } = useAuth();
-  const isEmployee = currentUser?.role === 'employee';
-
   // Today date YYYY-MM-DD
   const getTodayStr = () => {
     const today = new Date();
@@ -347,19 +339,6 @@ export const DailyEntryModule: React.FC = () => {
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
-  };
-
-  const getDaysDifferenceFromToday = (dateStr: string) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return 0;
-    const target = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-    target.setHours(0, 0, 0, 0);
-
-    const diffTime = today.getTime() - target.getTime();
-    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   };
 
   const [selectedDate, setSelectedDate] = useState<string>(getTodayStr());

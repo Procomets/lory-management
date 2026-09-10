@@ -8,7 +8,6 @@ import {
 } from '../../services/freightPartyService';
 import { 
   Plus, 
-  Search, 
   Edit, 
   Trash2, 
   X, 
@@ -20,8 +19,7 @@ import {
   CheckCircle, 
   XCircle,
   Filter,
-  RotateCcw,
-  UserCheck
+  RotateCcw
 } from 'lucide-react';
 
 export const FreightPartyMastery: React.FC = () => {
