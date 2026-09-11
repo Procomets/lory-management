@@ -8,7 +8,6 @@ import {
   uploadToCloudinary,
   VEHICLE_TYPES
 } from '../../services/vehicleService';
-import { useAuth } from '../../context/AuthContext';
 import { 
   Plus, 
   Search, 
@@ -27,13 +26,10 @@ import {
   RotateCcw,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown,
-  Lock
+  ArrowDown
 } from 'lucide-react';
 
 export const VehicleMastery: React.FC = () => {
-  const { currentUser } = useAuth();
-  const isEmployee = currentUser?.role === 'employee';
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -366,17 +362,10 @@ export const VehicleMastery: React.FC = () => {
           </div>
 
           {/* Add Vehicle Button */}
-          {!isEmployee ? (
-            <button type="button" className="btn-primary" onClick={openAddModal}>
-              <Plus size={18} />
-              <span>Add Vehicle</span>
-            </button>
-          ) : (
-            <button type="button" className="btn-primary" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Vehicle creation restricted to admin accounts">
-              <Lock size={16} />
-              <span>View Only</span>
-            </button>
-          )}
+          <button type="button" className="btn-primary" onClick={openAddModal}>
+            <Plus size={18} />
+            <span>Add Vehicle</span>
+          </button>
         </div>
       </div>
 
@@ -592,28 +581,24 @@ export const VehicleMastery: React.FC = () => {
 
                       {/* Actions */}
                       <td style={{ textAlign: 'right' }}>
-                        {!isEmployee ? (
-                          <div className="action-buttons-group">
-                            <button 
-                              type="button" 
-                              className="action-btn edit" 
-                              title="Edit Vehicle"
-                              onClick={() => openEditModal(v)}
-                            >
-                              <Edit size={16} />
-                            </button>
-                            <button 
-                              type="button" 
-                              className="action-btn delete" 
-                              title="Delete Vehicle"
-                              onClick={() => v.id && handleDelete(v.id, v.vehicleNo)}
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        ) : (
-                          <span style={{ fontSize: 12, color: '#94a3b8', fontStyle: 'italic', fontWeight: 600 }}>View Only</span>
-                        )}
+                        <div className="action-buttons-group">
+                          <button 
+                            type="button" 
+                            className="action-btn edit" 
+                            title="Edit Vehicle"
+                            onClick={() => openEditModal(v)}
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button 
+                            type="button" 
+                            className="action-btn delete" 
+                            title="Delete Vehicle"
+                            onClick={() => v.id && handleDelete(v.id, v.vehicleNo)}
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
